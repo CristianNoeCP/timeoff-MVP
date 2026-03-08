@@ -30,8 +30,8 @@ export class LeaveRequestPostController {
     reply: FastifyReply,
   ) {
     const { body } = request;
-    const { id, employeeId, managerId, daysDeducted } = body;
-    await this.leaveRequestCreator.run(id, employeeId, managerId, daysDeducted);
+    const { id, employeeId, daysDeducted } = body;
+    await this.leaveRequestCreator.run(id, employeeId, daysDeducted);
     reply.code(201).send();
   }
 }

@@ -19,7 +19,6 @@ export class LeaveRequestCreator {
   async run(
     id: string,
     employeeId: string,
-    managerId: string,
     daysDeducted: number,
   ): Promise<void> {
     const employee = await this.employeeFinder.find(employeeId);
@@ -29,15 +28,11 @@ export class LeaveRequestCreator {
     if (!employee.canRequestVacation(daysDeducted)) {
       throw new LeaveRequestVacationDaysExceededError(daysDeducted);
     }
-    const manager = await this.employeeFinder.find(managerId);
-    if (!manager) {
-      throw new LeaveRequestManagerNotFoundError(managerId);
-    }
     const leaveRequest = LeaveRequest.create(
       id,
       daysDeducted,
       employeeId,
-      managerId,
+      employee.managerId.value,
     );
     this.repository.save(leaveRequest);
     this.eventBus.publish(leaveRequest.pullDomainEvents());

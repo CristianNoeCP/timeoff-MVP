@@ -10,10 +10,6 @@ export const LeaveRequestPostBodySchema = Type.Object(
       format: "uuid",
       description: "Employee ID",
     }),
-    managerId: Type.String({
-      format: "uuid",
-      description: "Manager ID",
-    }),
     daysDeducted: Type.Number({
       description: "Number of days to deduct from employee's vacation balance",
     }),
