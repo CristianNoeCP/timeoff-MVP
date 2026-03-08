@@ -1,6 +1,6 @@
 import { AggregateRoot } from "../../shared/domain/AggregateRoot";
 import { Primitives } from "@codelytv/primitives-type";
-import { ManagerId } from "./ManagerId";
+import { ManagerId } from "../../shared/domain/ManagerId";
 import { ManagerEmail } from "./ManagerEmail";
 import { ManagerName } from "./ManagerName";
 

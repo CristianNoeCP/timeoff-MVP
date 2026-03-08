@@ -2,7 +2,7 @@ import { injectable, InjectionToken } from "tsyringe";
 import { PostgresRepository } from "../../shared/infrastructure/PostgresRepository";
 import { ManagerRepository } from "../domain/ManagerRepository";
 import { Manager } from "../domain/Manager";
-import { ManagerId } from "../domain/ManagerId";
+import { ManagerId } from "../../shared/domain/ManagerId";
 
 export const MANAGER_REPO_TOKEN: InjectionToken<ManagerRepository> =
   "ManagerRepository";

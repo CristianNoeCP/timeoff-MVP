@@ -1,4 +1,4 @@
-import { ManagerId } from "../domain/ManagerId";
+import { ManagerId } from "../../shared/domain/ManagerId";
 import { ManagerNotFoundError } from "../domain/ManagerNotFoundError";
 import { ManagerRepository } from "../domain/ManagerRepository";
 
