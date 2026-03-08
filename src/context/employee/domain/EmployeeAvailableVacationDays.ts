@@ -11,7 +11,7 @@ ensureValueIsValid(value: number): void {
     if (value < 0) {
       throw new Error("Available vacation days cannot be negative");
     }
-    if (value > 30) {
+    if (value > 25) {
       throw new Error("Available vacation days cannot exceed 30");
     }
   }

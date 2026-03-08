@@ -38,7 +38,7 @@ export class Employee extends AggregateRoot {
       id,
       name,
       email,
-      availableVacationDays: 30,
+      availableVacationDays: 0,
       managerId,
     });
   }
