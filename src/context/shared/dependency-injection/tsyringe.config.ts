@@ -8,6 +8,10 @@ import {
   LEAVE_REQUEST_REPO_TOKEN,
   PostgreSQLLeaveRequestRepository,
 } from "../../leaveRequest/infrastructure/PostgreSQLLeaveRequestRepository";
+import {
+  MANAGER_REPO_TOKEN,
+  PostgreSQLManagerRepository,
+} from "../../manager/infrastructure/PostgreSQLManagerRepository";
 import { RabbitMqConnection } from "../../shared/infrastructure/events_bus/RabbitMqConnection";
 import {
   RABBIT_MQ_EVENT_BUS_TOKEN,
@@ -25,6 +29,9 @@ container.register(EMPLOYEE_REPO_TOKEN, {
 });
 container.register(LEAVE_REQUEST_REPO_TOKEN, {
   useClass: PostgreSQLLeaveRequestRepository,
+});
+container.register(MANAGER_REPO_TOKEN, {
+  useClass: PostgreSQLManagerRepository,
 });
 container.register(RABBIT_MQ_EVENT_BUS_TOKEN, {
   useClass: RabbitMqEventBus,
