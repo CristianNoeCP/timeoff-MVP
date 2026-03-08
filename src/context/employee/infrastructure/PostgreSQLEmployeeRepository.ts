@@ -12,7 +12,7 @@ type DatabaseEmployeeRow = {
   name: string;
   email: string;
   available_vacation_days: number;
-  manager_id: string | null;
+  manager_id: string;
 };
 
 @injectable()

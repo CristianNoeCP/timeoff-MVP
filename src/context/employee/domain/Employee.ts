@@ -4,6 +4,7 @@ import { EmployeeId } from "./EmployeeId";
 import { EmployeeName } from "./EmployeeName";
 import { EmployeeEmail } from "./EmployeeEmail";
 import { EmployeeAvailableVacationDays } from "./EmployeeAvailableVacationDays";
+import { ManagerId } from "../../shared/domain/ManagerId";
 
 
 export class Employee extends AggregateRoot {
@@ -12,7 +13,7 @@ export class Employee extends AggregateRoot {
     readonly name: EmployeeName,
     readonly email: EmployeeEmail,
     readonly availableVacationDays: EmployeeAvailableVacationDays,
-    readonly managerId: EmployeeId | null,
+    readonly managerId: ManagerId,
   ) {
     super();
   }
@@ -23,7 +24,7 @@ export class Employee extends AggregateRoot {
       new EmployeeName(primitives.name),
       new EmployeeEmail(primitives.email),
       new EmployeeAvailableVacationDays(primitives.availableVacationDays),
-      primitives.managerId ? new EmployeeId(primitives.managerId) : null,
+      new ManagerId(primitives.managerId),
     );
   }
 
@@ -31,14 +32,14 @@ export class Employee extends AggregateRoot {
     id: string,
     name: string,
     email: string,
-    managerId?: string,
+    managerId: string,
   ): Employee {
     return Employee.fromPrimitives({
       id,
       name,
       email,
       availableVacationDays: 30,
-      managerId: managerId ?? null,
+      managerId,
     });
   }
 
@@ -52,7 +53,7 @@ export class Employee extends AggregateRoot {
       name: this.name.value,
       email: this.email.value,
       availableVacationDays: this.availableVacationDays.value,
-      managerId: this.managerId?.value ?? null,
+      managerId: this.managerId.value,
     };
   }
 }

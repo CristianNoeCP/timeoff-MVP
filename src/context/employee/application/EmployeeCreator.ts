@@ -8,7 +8,7 @@ export class EmployeeCreator {
     id: string,
     name: string,
     email: string,
-    managerId?: string,
+    managerId: string,
   ): Promise<void> {
     const employee = Employee.create(id, name, email, managerId);
     await this.repository.save(employee);

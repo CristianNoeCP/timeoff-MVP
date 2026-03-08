@@ -15,7 +15,7 @@ export const EmployeePostBodySchema = Type.Object(
       format: "email",
       description: "Employee Email",
     }),
-    managerId: Type.Optional(
+    managerId: Type.String(
       Type.String({
         format: "uuid",
         description: "Manager ID (optional)",
