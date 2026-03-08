@@ -1,12 +1,10 @@
 import { AggregateRoot } from "../../shared/domain/AggregateRoot";
 import { Primitives } from "@codelytv/primitives-type";
 import { EmployeeId } from "./EmployeeId";
-import { StringValueObject } from "../../shared/domain/value-object/StringValueObject";
-import { NumberValueObject } from "../../shared/domain/value-object/NumberValueObject";
+import { EmployeeName } from "./EmployeeName";
+import { EmployeeEmail } from "./EmployeeEmail";
+import { EmployeeAvailableVacationDays } from "./EmployeeAvailableVacationDays";
 
-export class EmployeeName extends StringValueObject {}
-export class EmployeeEmail extends StringValueObject {}
-export class EmployeeAvailableVacationDays extends NumberValueObject {}
 
 export class Employee extends AggregateRoot {
   private constructor(
@@ -45,7 +43,7 @@ export class Employee extends AggregateRoot {
   }
 
   canRequestVacation(daysDeducted: number): boolean {
-    return this.availableVacationDays.value >= daysDeducted;
+    return this.availableVacationDays.canUseVacationDays(daysDeducted);
   }
 
   toPrimitives(): Primitives<Employee> {
