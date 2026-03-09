@@ -23,6 +23,9 @@ import {
   ResendEmailNotificationEmail,
 } from "../../shared/infrastructure/notification/ResendEmailNotificationEmail";
 import { ResendConnection } from "../../shared/infrastructure/notification/ResendConnection";
+import { SendNotificationEmployeeOnLeaveRequestRejected } from "../../employee/application/SendNotificationEmployeeOnLeaveRequestRejected";
+import { SendNotificationEmployeeOnLeaveRequestApproved } from "../../employee/application/SendNotificationEmployeeOnLeaveRequestApproved";
+import { DeductDaysEmployeeOnLeaveRequestApproved } from "../../employee/application/DeducedDaysEmployeeOnLeaveRequestApproved";
 
 container.register(EMPLOYEE_REPO_TOKEN, {
   useClass: PostgreSQLEmployeeRepository,
@@ -63,7 +66,15 @@ container.register(RabbitMqConnection, {
 container.register("subscriber", {
   useClass: SendNotificationManagerOnLeaveRequestCreated,
 });
-
+container.register("subscriber", {
+  useClass: SendNotificationEmployeeOnLeaveRequestRejected,
+});
+container.register("subscriber", {
+  useClass: SendNotificationEmployeeOnLeaveRequestApproved,
+});
+container.register("subscriber", {
+  useClass: DeductDaysEmployeeOnLeaveRequestApproved,
+});
 container.register(ResendConnection, {
   useFactory: () => {
     return new ResendConnection(process.env.RESEND_API_KEY || "");

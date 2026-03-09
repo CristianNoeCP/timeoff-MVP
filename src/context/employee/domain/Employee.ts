@@ -6,13 +6,12 @@ import { EmployeeEmail } from "./EmployeeEmail";
 import { EmployeeAvailableVacationDays } from "./EmployeeAvailableVacationDays";
 import { ManagerId } from "../../shared/domain/ManagerId";
 
-
 export class Employee extends AggregateRoot {
   private constructor(
     readonly id: EmployeeId,
     readonly name: EmployeeName,
     readonly email: EmployeeEmail,
-    readonly availableVacationDays: EmployeeAvailableVacationDays,
+    public availableVacationDays: EmployeeAvailableVacationDays,
     readonly managerId: ManagerId,
   ) {
     super();
@@ -55,5 +54,10 @@ export class Employee extends AggregateRoot {
       availableVacationDays: this.availableVacationDays.value,
       managerId: this.managerId.value,
     };
+  }
+  deductDays(daysDeducted: number): void {
+    const availableVacationDaysWhitDeduct =
+      this.availableVacationDays.deduct(daysDeducted);
+    this.availableVacationDays = availableVacationDaysWhitDeduct;
   }
 }

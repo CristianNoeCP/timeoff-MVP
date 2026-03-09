@@ -18,4 +18,12 @@ ensureValueIsValid(value: number): void {
 canUseVacationDays(days: number): boolean {
     return this.value >= days;
   }
+  deduct(days: number): EmployeeAvailableVacationDays {
+    if (!this.canUseVacationDays(days)) {
+      throw new Error(
+        `Cannot deduct ${days} days. Only ${this.value} available vacation days.`,
+      );
+    }
+    return new EmployeeAvailableVacationDays(this.value - days);
+  }
 }

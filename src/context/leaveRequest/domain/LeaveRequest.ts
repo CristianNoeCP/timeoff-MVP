@@ -80,11 +80,11 @@ export class LeaveRequest extends AggregateRoot {
     });
     leaveRequest.record(
       new LeaveRequestApprovedDomainEvent(
-        this.id.value,
-        this.employeeId.value,
-        this.managerId.value,
-        this.status.value,
-        this.daysDeducted.value,
+        leaveRequest.id.value,
+        leaveRequest.employeeId.value,
+        leaveRequest.managerId.value,
+        leaveRequest.status.value,
+        leaveRequest.daysDeducted.value,
       ),
     );
     return leaveRequest;
@@ -94,7 +94,7 @@ export class LeaveRequest extends AggregateRoot {
     if (this.status.value !== LeaveRequestStatusEnum.PENDING) {
       throw new LeaveRequestPendingError(this.id.value);
     }
-  const leaveRequest = LeaveRequest.fromPrimitives({
+    const leaveRequest = LeaveRequest.fromPrimitives({
       id: this.id.value,
       daysDeducted: this.daysDeducted.value,
       employeeId: this.employeeId.value,
@@ -103,11 +103,11 @@ export class LeaveRequest extends AggregateRoot {
     });
     leaveRequest.record(
       new LeaveRequestRejectedDomainEvent(
-        this.id.value,
-        this.employeeId.value,
-        this.managerId.value,
-        this.status.value,
-        this.daysDeducted.value,
+        leaveRequest.id.value,
+        leaveRequest.employeeId.value,
+        leaveRequest.managerId.value,
+        leaveRequest.status.value,
+        leaveRequest.daysDeducted.value,
       ),
     );
     return leaveRequest;

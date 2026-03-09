@@ -22,7 +22,6 @@ const queues: {
 
 async function main(): Promise<void> {
   await connection.connect();
-
   await connection.declareExchange(EXCHANGE_NAME);
 
   await Promise.all(

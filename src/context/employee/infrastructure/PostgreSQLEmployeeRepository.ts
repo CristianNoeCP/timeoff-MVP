@@ -33,7 +33,14 @@ export class PostgreSQLEmployeeRepository
       )
     `;
   }
-
+  async updateDays(employee: Employee): Promise<void> {
+    const primitives = employee.toPrimitives();
+    await this.execute`
+      UPDATE employees
+      SET available_vacation_days = ${primitives.availableVacationDays}
+      WHERE id = ${primitives.id}
+    `;
+  }
   async search(id: EmployeeId): Promise<Employee | null> {
     return await this.searchOne`
       SELECT id, name, email, available_vacation_days, manager_id
