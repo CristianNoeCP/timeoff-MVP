@@ -76,6 +76,20 @@ export class LeaveRequest extends AggregateRoot {
       this.managerId,
     );
   }
+
+  reject(): LeaveRequest {
+    if (this.status.value !== LeaveRequestStatusEnum.PENDING) {
+      throw new LeaveRequestPendingError(this.id.value);
+    }
+    return new LeaveRequest(
+      this.id,
+      this.daysDeducted,
+      this.employeeId,
+      new LeaveRequestStatus(LeaveRequestStatusEnum.REJECTED),
+      this.managerId,
+    );
+  }
+
   isAuthorized(managerId: string): boolean {
     return this.managerId.value === managerId;
   }

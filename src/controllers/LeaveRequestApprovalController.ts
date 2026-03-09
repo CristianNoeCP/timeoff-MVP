@@ -13,7 +13,7 @@ import { LeaveRequestUnauthorizedError } from "../context/leaveRequest/domain/Le
 import { LeaveRequestPendingError } from "../context/leaveRequest/domain/LeaveRequestPendingError";
 
 @injectable()
-export class LeaveRequestPatchController {
+export class LeaveRequestApprovalController {
   private approver: LeaveRequestApprover;
   constructor(
     @inject(LEAVE_REQUEST_REPO_TOKEN)
