@@ -16,6 +16,6 @@ export class LeaveRequestApprover {
     }
 
     const approved = leaveRequest.approve();
-    await this.repository.save(approved);
+    await this.repository.updateStatus(approved);
   }
 }

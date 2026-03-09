@@ -16,6 +16,6 @@ export class LeaveRequestRejecter {
     }
 
     const rejected = leaveRequest.reject();
-    await this.repository.save(rejected);
+    await this.repository.updateStatus(rejected);
   }
 }

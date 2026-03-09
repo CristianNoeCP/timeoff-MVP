@@ -33,6 +33,16 @@ export class PostgreSQLLeaveRequestRepository
 			)
 		`;
   }
+
+  async updateStatus(leaveRequest: LeaveRequest): Promise<void> {
+    const leaveRequestPrimitives = leaveRequest.toPrimitives();
+    await this.execute`
+			UPDATE leave_requests
+			SET status = ${leaveRequestPrimitives.status}
+			WHERE id = ${leaveRequestPrimitives.id};
+		`;
+  }
+
   async search(id: LeaveRequestId): Promise<LeaveRequest | null> {
     return await this.searchOne`
 			SELECT id, days_deducted, employee_id, manager_id, status
