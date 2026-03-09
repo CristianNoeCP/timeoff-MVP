@@ -33,7 +33,7 @@ export class LeaveRequestCreator {
       employeeId,
       employee.managerId.value,
     );
-    this.repository.save(leaveRequest);
-    this.eventBus.publish(leaveRequest.pullDomainEvents());
+    await this.repository.save(leaveRequest);
+    await this.eventBus.publish(leaveRequest.pullDomainEvents());
   }
 }
