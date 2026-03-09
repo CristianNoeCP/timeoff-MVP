@@ -11,6 +11,10 @@ import {
 import { LeaveRequestRejecter } from "../context/leaveRequest/application/LeaveRequestRejecter";
 import { LeaveRequestUnauthorizedError } from "../context/leaveRequest/domain/LeaveRequestUnauthorizedError";
 import { LeaveRequestPendingError } from "../context/leaveRequest/domain/LeaveRequestPendingError";
+import {
+  RABBIT_MQ_EVENT_BUS_TOKEN,
+  RabbitMqEventBus,
+} from "../context/shared/infrastructure/events_bus/RabbitMqEventBus";
 
 @injectable()
 export class LeaveRequestRejectController {
@@ -18,8 +22,12 @@ export class LeaveRequestRejectController {
   constructor(
     @inject(LEAVE_REQUEST_REPO_TOKEN)
     private leaveRequestRepository: LeaveRequestRepository,
+    @inject(RABBIT_MQ_EVENT_BUS_TOKEN) private eventBus: RabbitMqEventBus,
   ) {
-    this.rejecter = new LeaveRequestRejecter(this.leaveRequestRepository);
+    this.rejecter = new LeaveRequestRejecter(
+      this.leaveRequestRepository,
+      this.eventBus,
+    );
   }
 
   async run(

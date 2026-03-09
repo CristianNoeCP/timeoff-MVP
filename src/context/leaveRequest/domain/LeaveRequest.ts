@@ -9,6 +9,8 @@ import {
 } from "./LeaveRequestStatus";
 import { LeaveRequestCreatedDomainEvent } from "./LeaveRequestCreatedDomainEvent";
 import { LeaveRequestPendingError } from "./LeaveRequestPendingError";
+import { LeaveRequestApprovedDomainEvent } from "./LeaveRequestApprovedDomainEvent";
+import { LeaveRequestRejectedDomainEvent } from "./LeaveRequestRejectedDomainEvent";
 
 export class LeaveRequest extends AggregateRoot {
   private constructor(
@@ -68,26 +70,47 @@ export class LeaveRequest extends AggregateRoot {
     if (this.status.value !== LeaveRequestStatusEnum.PENDING) {
       throw new LeaveRequestPendingError(this.id.value);
     }
-    return new LeaveRequest(
-      this.id,
-      this.daysDeducted,
-      this.employeeId,
-      new LeaveRequestStatus(LeaveRequestStatusEnum.APPROVED),
-      this.managerId,
+
+    const leaveRequest = LeaveRequest.fromPrimitives({
+      id: this.id.value,
+      daysDeducted: this.daysDeducted.value,
+      employeeId: this.employeeId.value,
+      managerId: this.managerId.value,
+      status: LeaveRequestStatusEnum.APPROVED,
+    });
+    leaveRequest.record(
+      new LeaveRequestApprovedDomainEvent(
+        this.id.value,
+        this.employeeId.value,
+        this.managerId.value,
+        this.status.value,
+        this.daysDeducted.value,
+      ),
     );
+    return leaveRequest;
   }
 
   reject(): LeaveRequest {
     if (this.status.value !== LeaveRequestStatusEnum.PENDING) {
       throw new LeaveRequestPendingError(this.id.value);
     }
-    return new LeaveRequest(
-      this.id,
-      this.daysDeducted,
-      this.employeeId,
-      new LeaveRequestStatus(LeaveRequestStatusEnum.REJECTED),
-      this.managerId,
+  const leaveRequest = LeaveRequest.fromPrimitives({
+      id: this.id.value,
+      daysDeducted: this.daysDeducted.value,
+      employeeId: this.employeeId.value,
+      managerId: this.managerId.value,
+      status: LeaveRequestStatusEnum.APPROVED,
+    });
+    leaveRequest.record(
+      new LeaveRequestRejectedDomainEvent(
+        this.id.value,
+        this.employeeId.value,
+        this.managerId.value,
+        this.status.value,
+        this.daysDeducted.value,
+      ),
     );
+    return leaveRequest;
   }
 
   isAuthorized(managerId: string): boolean {

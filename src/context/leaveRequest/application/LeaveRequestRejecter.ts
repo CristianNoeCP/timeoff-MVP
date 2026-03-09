@@ -1,10 +1,14 @@
+import { EventBus } from "../../shared/domain/EventBus";
 import { LeaveRequestId } from "../domain/LeaveRequestId";
 import { LeaveRequestNotFoundError } from "../domain/LeaveRequestNotFoundError";
 import { LeaveRequestRepository } from "../domain/LeaveRequestRepository";
 import { LeaveRequestUnauthorizedError } from "../domain/LeaveRequestUnauthorizedError";
 
 export class LeaveRequestRejecter {
-  constructor(private readonly repository: LeaveRequestRepository) {}
+  constructor(
+    private readonly repository: LeaveRequestRepository,
+    private eventBus: EventBus,
+  ) {}
 
   async run(id: string, managerId: string): Promise<void> {
     const leaveRequest = await this.repository.search(new LeaveRequestId(id));
@@ -17,5 +21,6 @@ export class LeaveRequestRejecter {
 
     const rejected = leaveRequest.reject();
     await this.repository.updateStatus(rejected);
+    await this.eventBus.publish(rejected.pullDomainEvents());
   }
 }
