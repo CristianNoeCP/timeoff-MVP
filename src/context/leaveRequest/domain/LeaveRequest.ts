@@ -8,6 +8,7 @@ import {
   LeaveRequestStatusEnum,
 } from "./LeaveRequestStatus";
 import { LeaveRequestCreatedDomainEvent } from "./LeaveRequestCreatedDomainEvent";
+import { LeaveRequestPendingError } from "./LeaveRequestPendingError";
 
 export class LeaveRequest extends AggregateRoot {
   private constructor(
@@ -62,5 +63,20 @@ export class LeaveRequest extends AggregateRoot {
       employeeId: this.employeeId.value,
       managerId: this.managerId.value,
     };
+  }
+  approve(): LeaveRequest {
+    if (this.status.value !== LeaveRequestStatusEnum.PENDING) {
+      throw new LeaveRequestPendingError(this.id.value);
+    }
+    return new LeaveRequest(
+      this.id,
+      this.daysDeducted,
+      this.employeeId,
+      new LeaveRequestStatus(LeaveRequestStatusEnum.APPROVED),
+      this.managerId,
+    );
+  }
+  isAuthorized(managerId: string): boolean {
+    return this.managerId.value === managerId;
   }
 }

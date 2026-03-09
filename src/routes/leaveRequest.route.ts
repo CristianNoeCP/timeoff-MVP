@@ -11,9 +11,12 @@ import {
   ErrorLeaveRequestSchema,
   LeaveRequestParamsSchema,
   LeaveRequestDetailSchema,
+  LeaveRequestManagerSchema,
+  LeaveRequestManagerPatchBody,
 } from "../schemas/leave_request.schemas";
 import { LeaveRequestPostController } from "../controllers/LeaveRequestPostController";
 import { LeaveRequestGetController } from "../controllers/LeaveRequestGetController";
+import { LeaveRequestPatchController } from "../controllers/LeaveRequestPatchController";
 
 export default function leaveRequestRoutes(fastify: FastifyInstance) {
   fastify.route({
@@ -35,6 +38,27 @@ export default function leaveRequestRoutes(fastify: FastifyInstance) {
         LeaveRequestPostController,
       );
       await leaveRequestController.run(request, reply);
+    },
+  });
+  fastify.patch<{
+    Params: LeaveRequestParams;
+    Body: LeaveRequestManagerPatchBody;
+  }>("/leave-requests/:id/approve", {
+    schema: {
+      description: "Approve a leave request",
+      tags: ["Leave Requests"],
+      params: LeaveRequestParamsSchema,
+      body: LeaveRequestManagerSchema,
+      response: {
+        201: {},
+        404: ErrorLeaveRequestSchema,
+        409: ErrorLeaveRequestSchema,
+        403: ErrorLeaveRequestSchema,
+      },
+    },
+    handler: async (request, reply) => {
+      const controller = container.resolve(LeaveRequestPatchController);
+      await controller.run(request, reply);
     },
   });
   fastify.get<{

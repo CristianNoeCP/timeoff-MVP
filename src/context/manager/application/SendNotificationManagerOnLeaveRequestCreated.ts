@@ -7,6 +7,10 @@ import {
   RESEND_EMAIL_NOTIFICATION_EMAIL_TOKEN,
   ResendEmailNotificationEmail,
 } from "../../shared/infrastructure/notification/ResendEmailNotificationEmail";
+import { ManagerRepository } from "../domain/ManagerRepository";
+import { MANAGER_REPO_TOKEN } from "../infrastructure/PostgreSQLManagerRepository";
+import { EMPLOYEE_REPO_TOKEN } from "../../employee/infrastructure/PostgreSQLEmployeeRepository";
+import { EmployeeRepository } from "../../employee/domain/EmployeeRepository";
 
 @injectable()
 export class SendNotificationManagerOnLeaveRequestCreated implements DomainEventSubscriber<LeaveRequestCreatedDomainEvent> {
@@ -14,14 +18,18 @@ export class SendNotificationManagerOnLeaveRequestCreated implements DomainEvent
   constructor(
     @inject(RESEND_EMAIL_NOTIFICATION_EMAIL_TOKEN)
     private resendEmailNotificationEmail: ResendEmailNotificationEmail,
+    @inject(MANAGER_REPO_TOKEN) private managerRepository: ManagerRepository,
+    @inject(EMPLOYEE_REPO_TOKEN) private employeeRepository: EmployeeRepository,
   ) {
     this.managerNotification = new ManagerNotification(
       this.resendEmailNotificationEmail,
+      this.employeeRepository,
+      this.managerRepository,
     );
   }
 
   async on(event: LeaveRequestCreatedDomainEvent): Promise<void> {
-    await this.managerNotification.notify();
+    await this.managerNotification.notify(event.managerId, event.daysDeducted, event.employeeId);
   }
 
   subscribedTo(): DomainEventClass[] {

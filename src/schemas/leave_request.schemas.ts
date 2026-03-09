@@ -37,14 +37,19 @@ export const LeaveRequestParamsSchema = Type.Object({
     format: "uuid",
   }),
 });
-
+export const LeaveRequestManagerSchema = Type.Object({
+  managerId: Type.String({
+    description: "Manager ID",
+    format: "uuid",
+  }),
+});
 export const LeaveRequestDetailSchema = Type.Object(
   {
     id: Type.String({ description: "Leave Request ID" }),
     employeeId: Type.String({ description: "Employee ID" }),
     managerId: Type.String({ description: "Manager ID" }),
     status: Type.String({ description: "Leave request status" }),
-    daysDeducted: Type.Number({ description: "Number of days deducted" })
+    daysDeducted: Type.Number({ description: "Number of days deducted" }),
   },
   {
     $id: "LeaveRequestDetail",
@@ -61,10 +66,11 @@ export const ErrorLeaveRequestSchema = Type.Object(
     $id: "ErrorLeaveRequest",
     description: "Error response for leave request operations",
   },
-);    
+);
 
 export type LeaveRequestPostBody = Static<typeof LeaveRequestPostBodySchema>;
 export type LeaveRequestReply = Static<typeof LeaveRequestReplySchema>;
 export type LeaveRequestParams = Static<typeof LeaveRequestParamsSchema>;
+export type LeaveRequestManagerPatchBody = Static<typeof LeaveRequestManagerSchema>;
 export type LeaveRequestDetail = Static<typeof LeaveRequestDetailSchema>;
 export type ErrorLeaveRequestResponse = Static<typeof ErrorLeaveRequestSchema>;

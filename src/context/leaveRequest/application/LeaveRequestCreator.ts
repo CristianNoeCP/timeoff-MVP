@@ -3,7 +3,6 @@ import { DomainEmployeeFinder } from "../../shared/domain/DomainEmployeeFinder";
 import { EventBus } from "../../shared/domain/EventBus";
 import { LeaveRequest } from "../domain/LeaveRequest";
 import { LeaveRequestEmployeeNotFoundError } from "../domain/LeaveRequestEmployeeNotFoundError";
-import { LeaveRequestManagerNotFoundError } from "../domain/LeaveRequestManagerNotFoundError";
 import { LeaveRequestRepository } from "../domain/LeaveRequestRepository";
 import { LeaveRequestVacationDaysExceededError } from "../domain/LeaveRequestVacationDaysExceededError";
 

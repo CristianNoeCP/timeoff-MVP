@@ -13,9 +13,9 @@ export class ResendEmailNotificationEmail implements NotificationEmail {
   async send(to: string, subject: string, template?: string): Promise<void> {
     await this.resend.emails.send({
       from: "onboarding@resend.dev",
-      to: "cristiannoecardenasparra@gmail.com",
-      subject: "Hola!",
-      html: "<strong>Mi primer correo</strong>",
+      to,
+      subject,
+      html: template || "<strong>Mi primer correo</strong>",
     });
   }
 }

@@ -17,7 +17,7 @@ import {
   RABBIT_MQ_EVENT_BUS_TOKEN,
   RabbitMqEventBus,
 } from "../../shared/infrastructure/events_bus/RabbitMqEventBus";
-import { SendNotificationManagerOnLeaveRequestCreated } from "../../employee/application/SendNotificationManagerOnLeaveRequestCreated";
+import { SendNotificationManagerOnLeaveRequestCreated } from "../../manager/application/SendNotificationManagerOnLeaveRequestCreated";
 import {
   RESEND_EMAIL_NOTIFICATION_EMAIL_TOKEN,
   ResendEmailNotificationEmail,
